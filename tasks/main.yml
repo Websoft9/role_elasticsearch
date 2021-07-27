@@ -15,12 +15,11 @@
     create: yes
     line: 'action.auto_create_index: {{elasticsearch_create_index}}'
 
-- block:
-  - name: Enable elasticsearch remote connection
-    replace:
-      path: /etc/elasticsearch/elasticsearch.yml
-      regexp: '#network.host: 192.168.0.1'
-      replace: 'network.host: 0.0.0.0'     
+- name: Enable elasticsearch remote connection
+  replace:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: '#network.host: 192.168.0.1'
+    replace: 'network.host: 0.0.0.0'     
   when: elasticsearch_remote
 
 - name: Restart elasticsearch
