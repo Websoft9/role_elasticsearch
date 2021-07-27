@@ -26,7 +26,7 @@
 - name: Restart elasticsearch
   service:
     name: elasticsearch.service
-    state: started
+    state: restarted
     enabled: yes
 
 # set soft link, -b cover the exist links
