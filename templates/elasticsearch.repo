@@ -1,8 +1,8 @@
-#[elasticsearch-{{version_package}}]
-#name=Elasticsearch repository for {{version_package}} packages
-#baseurl=https://artifacts.elastic.co/packages/oss-{{version_package}}/yum
-#gpgcheck=1
-#gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-#enabled=1
-#autorefresh=1
-#type=rpm-md
+[elasticsearch-{{version_package}}]
+name=Elasticsearch repository for {{version_package}} packages
+baseurl=https://artifacts.elastic.co/packages/oss-{{version_package}}/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
