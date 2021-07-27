@@ -59,18 +59,18 @@
       '15': '6.7'
       '16': '6.8'
       '17': '7.0'
-      '17': '7.1'
-      '17': '7.2'
-      '17': '7.3'
-      '17': '7.4'
-      '17': '7.5'
-      '17': '7.6'
-      '17': '7.7'
-      '17': '7.8'
+      '18': '7.1'
+      '19': '7.2'
+      '20': '7.3'
+      '21': '7.4'
+      '22': '7.5'
+      '23': '7.6'
+      '24': '7.7'
+      '25': '7.8'
     elasticsearch_remote_select:
       '1': 'true'
       '2': 'false'
 
     elasticsearch_version: "{{elasticsearch_version_select[elasticsearch_version_selection]}}"
-    elasticsearch_remote: "{{elasticsearch_remote_select[elasticsearch_remote_selection}}"
+    elasticsearch_remote: "{{elasticsearch_remote_select[elasticsearch_remote_selection]}}"
     
