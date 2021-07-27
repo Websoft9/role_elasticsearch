@@ -3,3 +3,36 @@
   remote_user: root
   roles:
     - role_elasticsearch
+
+  vars_prompt:
+    - name: 'elasticsearch_version_selection'
+      prompt: "\nPlease choose the number for Elasticsearch version [ 1/2/../10] \n\n
+        1: Elasticsearch7.8\n
+        2: Elasticsearch7.7\n
+        3: Elasticsearch7.6\n
+        4: Elasticsearch7.5\n
+        5: Elasticsearch7.4\n
+        6: Elasticsearch7.3\n
+        7: Elasticsearch7.2\n
+        8: Elasticsearch7.1\n
+        9: Elasticsearch7.0\n"
+        private: no
+        default: 1
+        
+  vars:
+    elasticsearch_version_select:
+      '1': "7.8"
+      '2': "7.7"
+      '3': "7.6"
+      '4': "7.5"
+      '5': "7.4"
+      '6': "7.3"
+      '7': "7.2"
+      '8': "7.1"
+      '9': "7.0"
+
+    elasticsearch_version: "{{elasticsearch_version_select[elasticsearch_version_selection]}}"
+
+  pre_tasks:
+    - debug:
+        msg: Will install Elasticsearch {{elasticsearch_version}}
