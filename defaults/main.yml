@@ -5,6 +5,7 @@
 elasticsearch_version: "7.8"
 elasticsearch_clurname: "my-application"
 elasticsearch_create_index: False
+elasticsearch_remote: False
 
 elasticsearch_meta:
   "7.8":
