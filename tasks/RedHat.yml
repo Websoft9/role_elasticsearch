@@ -12,11 +12,11 @@
   template:
     src: kibana.repo
     dest: /etc/yum.repos.d/kibana.repo
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
 
 - name: install elasticsearch
   shell: yum install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y
 
 - name: install kibana
   shell: sudo yum install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana

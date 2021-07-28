@@ -83,7 +83,7 @@
 # install Kibana by OS_family
 - name: Install this role on {{ansible_os_family}}
   include: "{{ansible_os_family}}.yml"
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana 
 
 # configure Kibana
 - name: enable ipaddress
@@ -93,7 +93,7 @@
     line: 'server.port: 5601'
     state: present
     backrefs: yes
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
 
 - name: http.port
   lineinfile:
@@ -102,7 +102,7 @@
     line: 'server.host: "0.0.0.0"'
     state: present
     backrefs: yes
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana 
 
 - name: elasticsearch.hosts
   lineinfile:
@@ -111,7 +111,7 @@
     line: 'elasticsearch.hosts: ["http://localhost:9200"]'
     state: present
     backrefs: yes
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
 
 #- name: run logstash
 #  shell: /usr/share/logstash/bin/logstash -e 'input { stdin { } } output { stdout {} }'
@@ -121,7 +121,7 @@
     name: kibana.service
     state: restarted
     enabled: yes
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
 
 # set soft link, -f enforce the exist links
 # ln -sf src des
@@ -130,17 +130,17 @@
     ln -sf /var/log/Kibana  /data/log/
     ln -sf /var/lib/Kibana  /data/
     ln -sf /etc/Kibana/Kibana.yml /data/config/
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
 # Check version,
 # must use sudo sh -c to solve the no-root permission
 - block:
   - name: Check Kibana Version
     shell: sudo echo "kibana version:"`rpm -qa | grep kibana | awk -F "-" '{print $2}'` 1>> /data/logs/install_version.txt
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
 
 # check service state
 - name: Check Kibana Service
   shell: systemctl status kibana | grep Active*
   register: check_kibana_service
   notify: check_kibana_service
-  when: elasticsearch_install_kibana ==  "False"
+  when: elasticsearch_install_kibana
