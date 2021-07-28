@@ -4,4 +4,4 @@
 - name: check_kibana_service
   debug:
     var: check_kibana_service.stdout
-  when: elasticsearch_install_kibana
+  when: elasticsearch_install_kibana ==  "False"

@@ -75,12 +75,12 @@
       '23': '7.13'
 
     elasticsearch_remote_select:
-      '1': 'true'
-      '2': 'false'
+      '1': 'True'
+      '2': 'False'
 
     elasticsearch_install_kibana_select:
-      '1': 'true'
-      '2': 'false'
+      '1': 'True'
+      '2': 'False'
 
     elasticsearch_version: "{{elasticsearch_version_select[elasticsearch_version_selection]}}"
     elasticsearch_remote: "{{elasticsearch_remote_select[elasticsearch_remote_selection]}}"
