@@ -5,9 +5,10 @@
 - name: Installing from the APT repositoryedit
   shell: sudo apt-get install apt-transport-https
 
-- name: Save the repository definition
+- name: Save the elasticsearch repository definition
   shell: echo "deb https://artifacts.elastic.co/packages/oss-{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
-
+- name: Save the kibana repository definition  
+  shell: echo "deb https://artifacts.elastic.co/packages/{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
 - name: install elasticsearch
   shell: sudo apt-get update && sudo apt-get install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
 
