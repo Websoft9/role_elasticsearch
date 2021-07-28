@@ -6,4 +6,5 @@ elasticsearch_version: "7.8"
 elasticsearch_clurname: "my-application"
 elasticsearch_create_index: False
 elasticsearch_remote: true
+elasticsearch_install_kibana: false
 elasticsearch_port: 9200

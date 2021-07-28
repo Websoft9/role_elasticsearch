@@ -33,12 +33,20 @@
       23: elasticsearch7.13\n"
       private: no
       default: 23
+
     - name: 'elasticsearch_remote_selection'
       prompt: "\nDo you want to enable elasticsearch remote connection? [ 1/2 ] \n\n
       1: Yes\n
       2: No\n"
       private: no
       default: 1
+
+    - name: 'elasticsearch_install_kibana_selection'
+      prompt: "\nDo you want to enable elasticsearch remote connection? [ 1/2 ] \n\n
+      1: Yes\n
+      2: No\n"
+      private: no
+      default: 2
 
   vars:
     elasticsearch_version_select:
@@ -65,10 +73,15 @@
       '21': '7.11'
       '22': '7.12'
       '23': '7.13'
+
     elasticsearch_remote_select:
+      '1': 'true'
+      '2': 'false'
+
+    elasticsearch_install_kibana_select:
       '1': 'true'
       '2': 'false'
 
     elasticsearch_version: "{{elasticsearch_version_select[elasticsearch_version_selection]}}"
     elasticsearch_remote: "{{elasticsearch_remote_select[elasticsearch_remote_selection]}}"
-    
+    elasticsearch_install_kibana: "{{elasticsearch_install_kibana_select[elasticsearch_install_kibana_selection]}}"

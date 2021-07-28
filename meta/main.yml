@@ -1,3 +1,6 @@
+# OSS ：And if you prefer to run a build that's 100% Apache 2.0 code, we will have '-oss' versions of our distributions available.
+# https://www.elastic.co/cn/what-is/open-x-pack
+
 ---
 dependencies: []
 
