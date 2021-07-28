@@ -13,5 +13,5 @@
 
 
 - name: install kibana
-  shell: sudo apt-get update && sudo apt-get install kibana -y
+  shell: sudo apt-get update && sudo apt-get install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
   when: elasticsearch_install_kibana
