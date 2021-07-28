@@ -10,4 +10,4 @@
     dest: /etc/yum.repos.d/elasticsearch.repo
 
 - name: install elasticsearch
-  shell: yum install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y
+  shell: yum install elasticsearch-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y

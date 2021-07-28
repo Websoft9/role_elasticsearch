@@ -57,8 +57,8 @@ elasticsearch_meta:
       yum_pkg_name_redhat: "7.0.1-1"
   "6.8":
       yum_name: "6.x"
-      yum_pkg_name_debian: "6.8.10"
-      yum_pkg_name_redhat: "6.8.10-1"
+      yum_pkg_name_debian: "6.8.17"
+      yum_pkg_name_redhat: "6.8.17-1"
   "6.7":
       yum_name: "6.x"
       yum_pkg_name_debian: "6.7.2"
