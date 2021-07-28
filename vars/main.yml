@@ -1,4 +1,24 @@
 elasticsearch_meta:
+  "7.13":
+      yum_name: "7.x"
+      yum_pkg_name_debian: "7.13.4"
+      yum_pkg_name_redhat: "7.13.4-1"
+  "7.12":
+      yum_name: "7.x"
+      yum_pkg_name_debian: "7.12.1"
+      yum_pkg_name_redhat: "7.12.1-1"
+  "7.11":
+      yum_name: "7.x"
+      yum_pkg_name_debian: "7.11.2"
+      yum_pkg_name_redhat: "7.11.2-1"
+  "7.10":
+      yum_name: "7.x"
+      yum_pkg_name_debian: "7.10.2"
+      yum_pkg_name_redhat: "7.10.2-1"
+  "7.9":
+      yum_name: "7.x"
+      yum_pkg_name_debian: "7.9.3"
+      yum_pkg_name_redhat: "7.9.3-1"
   "7.8":
       yum_name: "7.x"
       yum_pkg_name_debian: "7.8.0"
@@ -71,31 +91,3 @@ elasticsearch_meta:
       yum_name: "6.x"
       yum_pkg_name_debian: "6.0.1"
       yum_pkg_name_redhat: "6.0.1-1"
-  "5.6":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.6.16"
-      yum_pkg_name_redhat: "5.6.16-1"
-  "5.5":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.5.3"
-      yum_pkg_name_redhat: "5.5.3-1"
-  "5.4":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.4.3"
-      yum_pkg_name_redhat: "5.4.3-1"
-  "5.3":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.3.3"
-      yum_pkg_name_redhat: "5.3.3-1"
-  "5.2":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.2.2"
-      yum_pkg_name_redhat: "5.2.2-1"
-  "5.1":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.1.2"
-      yum_pkg_name_redhat: "5.1.2-1"
-  "5.0":
-      yum_name: "5.x"
-      yum_pkg_name_debian: "5.0.2"
-      yum_pkg_name_redhat: "5.0.2-1"
