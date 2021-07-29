@@ -24,8 +24,7 @@
       14: elasticsearch7.7\n
       15: elasticsearch7.8\n
       16: elasticsearch7.9\n
-      17: elasticsearch7.10\n
-      
+      17: elasticsearch7.10\n"
       private: no
       default: 23
 
