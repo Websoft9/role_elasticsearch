@@ -79,12 +79,6 @@
 
 
 # install kibana
-
-# install Kibana by OS_family
-- name: Install this role on {{ansible_os_family}}
-  include: "{{ansible_os_family}}.yml"
-  when: elasticsearch_install_kibana 
-
 # configure Kibana
 - name: enable ipaddress
   lineinfile:
@@ -134,13 +128,8 @@
 
 - block:
   - name: Check centos Kibana Version
-    shell: sudo sh -c "echo `rpm -qa|grep Kibana |sed -n 1p` 1>> /data/logs/install_version.txt"
-  when: elasticsearch_install_kibana && ansible_distribution_file_variety == "RedHat"
-
-- block:
-  - name: Check ubuntu Kibana Version
-    shell: sudo echo "kibana version:"`dpkg -l | grep kibana | awk '{print $3}'` 1>> /data/logs/install_version.txt
-  when: elasticsearch_install_kibana && ansible_distribution_file_variety == "Debian"
+    shell: sudo sh -c "echo `rpm -qa|grep Kibana |awk -F "" '{print $3}'` 1>> /data/logs/install_version.txt"
+  when: elasticsearch_install_kibana 
 
 # check service state
 - name: Check Kibana Service
