@@ -8,18 +8,16 @@
   template:
     src: elasticsearch.repo
     dest: /etc/yum.repos.d/elasticsearch.repo
+    
 - name: Setting kibana source
   template:
     src: kibana.repo
     dest: /etc/yum.repos.d/kibana.repo
   when: elasticsearch_install_kibana
+
 - name: install elasticsearch
-  ignore_errors: yes
   shell: yum install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y
-  register: ie
-- name: install debug
-  debug:
-    var: ie
+
 - name: install kibana
   shell: sudo yum install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
   when: elasticsearch_install_kibana
