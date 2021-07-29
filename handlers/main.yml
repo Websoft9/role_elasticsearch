@@ -1,8 +1,8 @@
-- name: check_elasticsearch_service
+- name: Check_elasticsearch_service
   debug:
     var: check_elasticsearch_service.stdout
     
-- name: check_kibana_service
+- name: Check_kibana_service
   debug:
     var: check_kibana_service.stdout
   when: elasticsearch_install_kibana

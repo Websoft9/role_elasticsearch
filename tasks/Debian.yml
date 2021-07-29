@@ -1,5 +1,5 @@
 # import key
-- name: import key
+- name: Import key
   shell: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 
 - name: Installing from the APT repositoryedit
@@ -8,13 +8,13 @@
 - name: Save the elasticsearch repository definition
   shell: echo "deb https://artifacts.elastic.co/packages/oss-{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
 
-- name: Save the kibana repository definition  
-  shell: echo "deb https://artifacts.elastic.co/packages/{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
-  when: elasticsearch_install_kibana
-   
-- name: install elasticsearch
+- name: Install elasticsearch
   shell: sudo apt-get update && sudo apt-get install elasticsearch-oss={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
 
-- name: install kibana
-  shell: sudo apt-get update && sudo apt-get install kibana={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
+- block:
+    - name: Save the kibana repository definition  
+      shell: echo "deb https://artifacts.elastic.co/packages/{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
+
+    - name: install kibana
+      shell: sudo apt-get update && sudo apt-get install kibana={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
   when: elasticsearch_install_kibana

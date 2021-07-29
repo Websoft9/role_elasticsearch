@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 elasticsearch开启远程访问
 ### Remote
 修改elasticsearch的主配置文件elasticsearch.yml
@@ -55,5 +53,4 @@ USAGE => ALL ?
 
 ### volumes path edit
 - /data/db/mysql5.7/my.cnf:/ect/my.cnf => - /data/db/mysql5.7/my.cnf:/etc/mysql/conf.d/my.cnf 
->>>>>>> bf49ddf52df9af102862b0854644f61e42b5a11b
 
