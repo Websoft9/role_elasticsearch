@@ -74,4 +74,3 @@
     elasticsearch_version: "{{elasticsearch_version_select[elasticsearch_version_selection]}}"
     elasticsearch_remote: "{{elasticsearch_remote_select[elasticsearch_remote_selection]}}"
     elasticsearch_install_kibana: "{{elasticsearch_install_kibana_select[elasticsearch_install_kibana_selection]}}"
->>>>>>> bf49ddf52df9af102862b0854644f61e42b5a11b
