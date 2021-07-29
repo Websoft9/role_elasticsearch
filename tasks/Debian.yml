@@ -13,14 +13,8 @@
   when: elasticsearch_install_kibana
    
 - name: install elasticsearch
-  ignore_errors: yes
-  shell: sudo apt-get update && sudo apt-get install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
-  register: ie
+  shell: sudo apt-get update && sudo apt-get install elasticsearch-oss={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
 
-- name: install debug
-  debug:
-    var: ie
-  
 - name: install kibana
-  shell: sudo apt-get update && sudo apt-get install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
+  shell: sudo apt-get update && sudo apt-get install kibana={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
   when: elasticsearch_install_kibana
