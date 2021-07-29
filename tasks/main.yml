@@ -74,8 +74,8 @@
 # check service state
 - name: Check Elasticsearch Service
   shell: systemctl status elasticsearch | grep Active*
-  register: check_elasticsearch_service
-  notify: check_elasticsearch_service
+  register: Check_elasticsearch_service
+  notify: Check_elasticsearch_service
 
 
 # install kibana
@@ -97,7 +97,7 @@
         state: present
         backrefs: yes
 
-    - name: Elasticsearch.hosts
+    - name: Kibana.hosts
       lineinfile:
         path: /etc/kibana/kibana.yml
         regexp: '^#elasticsearch\.hosts'
@@ -127,54 +127,6 @@
 # check service state
     - name: Check Kibana Service
       shell: systemctl status kibana | grep Active*
-      register: check_kibana_service
-      notify: check_kibana_service
-    - name: Enable ipaddress
-      lineinfile:
-        path: /etc/kibana/kibana.yml
-        regexp: '#server.port: 5601'
-        line: 'server.port: {{elasticsearch_kibana_port}}'
-        state: present
-        backrefs: yes
-
-    - name: Http.port
-      lineinfile:
-        path: /etc/kibana/kibana.yml
-        regexp: '#server.host: "localhost"'
-        line: 'server.host: "0.0.0.0"'
-        state: present
-        backrefs: yes
-
-    - name: Elasticsearch.hosts
-      lineinfile:
-        path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch\.hosts'
-        line: 'elasticsearch.hosts: ["http://localhost:9200"]'
-        state: present
-        backrefs: yes
-  
-#- name: run logstash
-#  shell: /usr/share/logstash/bin/logstash -e 'input { stdin { } } output { stdout {} }'
-    - name: Restart Kibana
-      service:
-        name: kibana.service
-        state: restarted
-        enabled: yes
-
-# set soft link, -f enforce the exist links
-# ln -sf src des
-    - name: Set soft link
-      shell: |
-        ln -sf /var/log/Kibana  /data/log/
-        ln -sf /var/lib/Kibana  /data/
-        ln -sf /etc/Kibana/Kibana.yml /data/config/
-
-    - name: Check centos Kibana Version
-      shell: sudo sh -c "echo `rpm -qa|grep Kibana |awk -F "" '{print $3}'` 1>> /data/logs/install_version.txt"
-
-# check service state
-    - name: Check Kibana Service
-      shell: systemctl status kibana | grep Active*
-      register: check_kibana_service
-      notify: check_kibana_service
+      register: Check_kibana_service
+      notify: Check_kibana_service
   when: elasticsearch_install_kibana 

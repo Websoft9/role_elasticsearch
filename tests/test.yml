@@ -5,10 +5,7 @@
     ../vars/main.yml
   roles:
     - role_elasticsearch
-<<<<<<< HEAD
-=======
-
->>>>>>> f196588fab4f6e1b73616c76ba20f1ea68487680
+    
   vars_prompt:   
     - name: 'elasticsearch_version_selection'
       prompt: "\nPlease choose the number for elasticsearch version [ 1/2/../25] \n\n
