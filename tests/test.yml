@@ -26,7 +26,7 @@
       16: elasticsearch7.9\n
       17: elasticsearch7.10\n"
       private: no
-      default: 23
+      default: 17
 
     - name: 'elasticsearch_remote_selection'
       prompt: "\nDo you want to enable elasticsearch remote connection? [ 1/2 ] \n\n
