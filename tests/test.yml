@@ -5,7 +5,7 @@
     ../vars/main.yml
   roles:
     - role_elasticsearch
-<<<<<<< HEAD
+
 
   vars_prompt:
     - name: 'elasticsearch_version_selection'
