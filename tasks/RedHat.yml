@@ -23,3 +23,8 @@
 - name: install kibana
   shell: sudo yum install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
   when: elasticsearch_install_kibana
+
+- block:
+  - name: Check Kibana Version
+    shell: sudo echo "kibana version:"`rpm -qa | grep kibana | awk -F "-" '{print $2}'` 1>> /data/logs/install_version.txt
+  when: elasticsearch_install_kibana

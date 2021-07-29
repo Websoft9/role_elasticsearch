@@ -18,3 +18,8 @@
 - name: install kibana
   shell: sudo apt-get update && sudo apt-get install kibana={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
   when: elasticsearch_install_kibana
+
+- block:
+  - name: Check Kibana Version
+    shell: sudo echo "kibana version:"`dpkg -l | grep kibana | awk '{print $3}'` 1>> /data/logs/install_version.txt
+  when: elasticsearch_install_kibana
