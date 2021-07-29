@@ -30,11 +30,11 @@
     create: yes
     line: 'action.auto_create_index: {{elasticsearch_create_index}}'
 
-- name: initial_master_nodes
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    create: yes
-    line: 'cluster.initial_master_nodes: ["node-1"]'
+#- name: initial_master_nodes
+#  lineinfile:
+#    path: /etc/elasticsearch/elasticsearch.yml
+#    create: yes
+#    line: 'cluster.initial_master_nodes: ["node-1"]'
 
 - name: http.port
   lineinfile:
@@ -90,7 +90,7 @@
   lineinfile:
     path: /etc/kibana/kibana.yml
     regexp: '#server.port: 5601'
-    line: 'server.port: 5601'
+    line: 'server.port: {{kibana_port}}'
     state: present
     backrefs: yes
   when: elasticsearch_install_kibana
