@@ -11,10 +11,16 @@
 - name: Save the kibana repository definition  
   shell: echo "deb https://artifacts.elastic.co/packages/{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
   when: elasticsearch_install_kibana
-
+   
 - name: install elasticsearch
+  ignore_errors: yes
   shell: sudo apt-get update && sudo apt-get install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
+  register: ie
 
+- name: install debug
+  debug:
+    var: ie
+  
 - name: install kibana
   shell: sudo apt-get update && sudo apt-get install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
   when: elasticsearch_install_kibana

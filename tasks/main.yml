@@ -90,7 +90,7 @@
   lineinfile:
     path: /etc/kibana/kibana.yml
     regexp: '#server.port: 5601'
-    line: 'server.port: {{kibana_port}}'
+    line: 'server.port: {{elasticsearch_kibana_port}}'
     state: present
     backrefs: yes
   when: elasticsearch_install_kibana

@@ -1,16 +1,4 @@
 elasticsearch_meta:
-  "7.13":
-      yum_name: "7.x"
-      yum_pkg_name_debian: "7.13.4"
-      yum_pkg_name_redhat: "7.13.4-1"
-  "7.12":
-      yum_name: "7.x"
-      yum_pkg_name_debian: "7.12.1"
-      yum_pkg_name_redhat: "7.12.1-1"
-  "7.11":
-      yum_name: "7.x"
-      yum_pkg_name_debian: "7.11.2"
-      yum_pkg_name_redhat: "7.11.2-1"
   "7.10":
       yum_name: "7.x"
       yum_pkg_name_debian: "7.10.1"
