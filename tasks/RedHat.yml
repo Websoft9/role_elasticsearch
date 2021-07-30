@@ -19,5 +19,5 @@
         dest: /etc/yum.repos.d/kibana.repo
 
     - name: Install kibana
-      shell: sudo yum install kibana-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
+      shell: sudo yum install kibana-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
   when: elasticsearch_install_kibana
