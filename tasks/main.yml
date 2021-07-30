@@ -1,4 +1,3 @@
-# install Elasticsearch by OS_family
 - name: Install this role on {{ansible_os_family}}
   include: "{{ansible_os_family}}.yml"
 
@@ -14,7 +13,6 @@
     regexp: '^#node.name: node-1'
     line: 'node.name: node-1'
 
-#elasticsearch
 - name: Set auto_create_index
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
