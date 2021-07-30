@@ -9,8 +9,14 @@ elasticsearch开启远程访问
 将 network.host: 192.168.0.1 修改为 network.host: 0.0.0.0 
 
 
-
-
-### min install : [mysqld],[client]
-
+```
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+network.host: 0.0.0.0
+#
+# Set a custom port for HTTP:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
 ```

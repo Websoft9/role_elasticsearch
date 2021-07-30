@@ -36,7 +36,7 @@
 - name: Enable elasticsearch remote connection
   replace:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '#network.host: 192.168.0.1'
+    regexp: '^#network.host: 192.168.0.1'
     replace: 'network.host: 0.0.0.0'     
   when: elasticsearch_remote
 
@@ -46,8 +46,6 @@
     state: restarted
     enabled: yes
 
-# set soft link, -b cover the exist links
-# ln -sb src des
 - name: Set soft link
   shell: |
     ln -sf /var/log/elasticsearch  /data/log/
@@ -62,7 +60,6 @@
   - name: Check Elasticsearch Version
     shell: sudo echo "elasticsearch  version:" $(curl -XGET localhost:9200  |grep number |cut -d '"' -f 4)  |sudo tee -a /data/logs/install_version.txt
 
-# check service state
 - name: Check Elasticsearch Service
   shell: systemctl status elasticsearch | grep Active*
   register: Check_elasticsearch_service
