@@ -16,5 +16,5 @@
       shell: echo "deb https://artifacts.elastic.co/packages/{{elasticsearch_meta[elasticsearch_version].yum_name}}/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-{{elasticsearch_meta[elasticsearch_version].yum_name}}.list
 
     - name: install kibana
-      shell: sudo apt-get update && sudo apt-get install kibana={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
+      shell: sudo apt-get update && sudo apt-get install kibana-oss={{elasticsearch_meta[elasticsearch_version].yum_pkg_name_debian}} -y
   when: elasticsearch_install_kibana
