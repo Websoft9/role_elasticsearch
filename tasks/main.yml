@@ -2,15 +2,6 @@
 - name: Install this role on {{ansible_os_family}}
   include: "{{ansible_os_family}}.yml"
 
-#- name: Set viturl memory
-#  lineinfile:
-#    create: yes
-#    path: /etc/sysctl.conf
-#    line: 'vm.max_map_count=655360'
-
-#- name: Sysctl -p
-#  shell: sysctl -p
-
 - name: Set cluster.name
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
@@ -77,7 +68,6 @@
   register: Check_elasticsearch_service
   notify: Check_elasticsearch_service
 
-
 # install kibana
 # configure Kibana
 - block:
@@ -117,9 +107,9 @@
 # ln -sf src des
     - name: Set soft link
       shell: |
-        ln -sf /var/log/Kibana  /data/log/
-        ln -sf /var/lib/Kibana  /data/
-        ln -sf /etc/Kibana/Kibana.yml /data/config/
+        ln -sf /var/log/kibana  /data/log/
+        ln -sf /var/lib/kibana  /data/
+        ln -sf /etc/kibana/kibana.yml /data/config/
 
     - name: Check centos Kibana Version
       shell: sudo sh -c "echo "kibana version:"`rpm -qa | grep kibana | awk -F"-" '{print $2}'` 1>> /data/logs/install_version.txt"
