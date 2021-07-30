@@ -1,4 +1,3 @@
-# import key
 - name: import key
   shell: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
