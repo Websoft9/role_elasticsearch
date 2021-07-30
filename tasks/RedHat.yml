@@ -4,20 +4,14 @@
 
 - set_fact: version_package="{{elasticsearch_meta[elasticsearch_version].yum_name}}"
 
-- name: Setting elasticsearch source
+- name: Setting elasticsearch and kibana source
   template:
     src: elasticsearch.repo
     dest: /etc/yum.repos.d/elasticsearch.repo
 
 - name: Install elasticsearch
-  shell: yum install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y
+  shell: sudo yum install elasticsearch-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y
   
-- block:
-    - name: Setting kibana source
-      template:
-        src: kibana.repo
-        dest: /etc/yum.repos.d/kibana.repo
-
-    - name: Install kibana
-      shell: sudo yum install kibana-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
+- name: Install kibana
+  shell: sudo yum install kibana-oss-{{elasticsearch_meta[elasticsearch_version].yum_pkg_name_redhat}} -y 
   when: elasticsearch_install_kibana
