@@ -7,7 +7,7 @@
     - role_elasticsearch
   vars_prompt:   
     - name: 'elasticsearch_version_selection'
-      prompt: "\nPlease choose the number for elasticsearch version [ 1/2/../25] \n\n
+      prompt: "\nPlease choose the number for elasticsearch version [ 1/2/../17] \n\n
       1: elasticsearch6.3\n
       2: elasticsearch6.4\n
       3: elasticsearch6.5\n
