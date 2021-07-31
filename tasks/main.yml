@@ -16,15 +16,15 @@
 - name: Set auto_create_index
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    create: yes
     line: 'action.auto_create_index: {{elasticsearch_create_index}}'
 
-#- name: Initial_master_nodes
-#  lineinfile:
-#    path: /etc/elasticsearch/elasticsearch.yml
-#    create: yes
-#    line: 'cluster.initial_master_nodes: ["node-1"]'
-
+- name: Initial_master_nodes
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: '^#cluster.initial_master_nodes: ["node-1", "node-2"]'
+    line: 'cluster.initial_master_nodes: ["node-1"]'
+    backrefs: yes
+    
 - name: Set elasticsearch port
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
