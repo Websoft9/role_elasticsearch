@@ -76,7 +76,7 @@
     - name: Set kibana port
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#server.port 5601'
+        regexp: '^#server.port: 5601'
         line: 'server.port: {{elasticsearch_kibana_port}}'
         state: present
         backrefs: yes
@@ -90,7 +90,7 @@
     - name: Kibana connect elasticsearch
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.hosts'
+        regexp: '^#elasticsearch.hosts: '
         line: 'elasticsearch.hosts: ["http://localhost:9200"]'
         state: present
         backrefs: yes
