@@ -1,6 +1,6 @@
 [elasticsearch-{{version_package}}]
 name=Elasticsearch repository for {{version_package}} packages
-baseurl=https://artifacts.elastic.co/packages/oss-{{version_package}}/yum
+baseurl=https://artifacts.elastic.co/packages/{{version_package}}/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1

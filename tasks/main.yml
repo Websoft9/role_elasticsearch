@@ -1,6 +1,13 @@
 - name: Install this role on {{ansible_os_family}}
   include: "{{ansible_os_family}}.yml"
 
+- name: set viturl memory
+  sysctl:
+    name: vm.max_map_count
+    value: 262144
+    state: present
+    reload: yes
+
 - name: Set cluster.name
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
