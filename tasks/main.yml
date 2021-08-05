@@ -106,7 +106,7 @@
       notify: Check_kibana_service
   when: elasticsearch_install_kibana
 
- # Enabling password Authentication
+# Enabling password Authentication
 - block: 
     - name: Enable xpack.security
       lineinfile:
@@ -128,17 +128,22 @@
       lineinfile:
         path: /etc/kibana/kibana.yml
         regexp: '^#elasticsearch.username: '
-        line: 'elasticsearch.username: elastic'
+        line: "elasticsearch.username: 'elastic'"
         state: present
     - name: Set kibana passwod
       lineinfile:
         path: /etc/kibana/kibana.yml
         regexp: '^#elasticsearch.password: '
-        line: 'elasticsearch.password: 123456'
+        line: "elasticsearch.password: '123456'"
         state: present
-    - name: Creating a Superuser
+    - name: delete the Superuser
       shell: |
         /usr/share/elasticsearch/bin/elasticsearch-users userdel admin
+    - name: Restart elasticsearch
+      service:
+        name: elasticsearch.service
+        state: restarted
+        enabled: yes
     - name: Restart Kibana
       service:
         name: kibana.service

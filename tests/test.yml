@@ -50,7 +50,7 @@
       default: 2
     
     - name: 'elasticsearch_authentication_selection'
-      prompt: "\nDo you want to install kibana? [ 1/2 ] \n\n
+      prompt: "\nDo you want to Enabling password Authentication? [ 1/2 ] \n\n
       1: Yes\n
       2: No\n"
       private: no
