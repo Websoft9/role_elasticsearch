@@ -106,7 +106,7 @@
       notify: Check_kibana_service
   when: elasticsearch_install_kibana
 
- #  Enabling password Authentication
+ # Enabling password Authentication
 - block: 
     - name: Enable xpack.security
       lineinfile:
@@ -144,5 +144,5 @@
         name: kibana.service
         state: restarted
         enabled: yes
-  when:  
+  when: elasticsearch_authentication
     
