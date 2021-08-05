@@ -74,7 +74,6 @@
         regexp: '^#server.port: 5601'
         line: 'server.port: {{elasticsearch_kibana_port}}'
         state: present
-        backrefs: yes
     - name: Set the bind host
       lineinfile:
         path: /etc/kibana/kibana.yml
@@ -98,6 +97,7 @@
         ln -sf /var/log/kibana  /data/log/
         ln -sf /var/lib/kibana  /data/
         ln -sf /etc/kibana/kibana.yml /data/config/
+    - wait_for: port={{elasticsearch_kibana_port}} delay=10
     - name: Check centos Kibana Version
       shell: sudo sh -c "echo "kibana version:"`rpm -qa | grep kibana | awk -F"-" '{print $2}'` 1>> /data/logs/install_version.txt"
     - name: Check Kibana Service
@@ -120,10 +120,15 @@
       lineinfile:
         path: /etc/elasticsearch/elasticsearch.yml
         line: 'xpack.security.transport.ssl.enabled: true'
+    - name: Restart elasticsearch
+      service:
+        name: elasticsearch.service
+        state: restarted
+        enabled: yes
     - name: Creating a Superuser
       shell: |
-        /usr/share/elasticsearch/bin/elasticsearch-users useradd admin -p admin123 -r superuser
-        curl -u admin:admin123 -XPUT "http://localhost:5601/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"123456"}'
+        /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
+        curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:5601/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"123456"}'
     - name: Set kibana username
       lineinfile:
         path: /etc/kibana/kibana.yml
