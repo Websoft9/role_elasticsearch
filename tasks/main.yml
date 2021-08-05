@@ -20,10 +20,10 @@
     regexp: '^#node.name: node-1'
     line: 'node.name: node-1'
 
-- name: Set auto_create_index
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: 'action.auto_create_index: {{elasticsearch_create_index}}'
+#- name: Set auto_create_index
+#  lineinfile:
+#    path: /etc/elasticsearch/elasticsearch.yml
+#    line: 'action.auto_create_index: {{elasticsearch_create_index}}'
 
 - name: Initial_master_nodes
   lineinfile:
