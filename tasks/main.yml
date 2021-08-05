@@ -93,6 +93,7 @@
         regexp: '^#elasticsearch.hosts: '
         line: 'elasticsearch.hosts: ["http://localhost:9200"]'
         state: present
+        backrefs: yes
     - name: Restart Kibana
       service:
         name: kibana.service
