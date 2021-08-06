@@ -128,12 +128,15 @@
         state: restarted
         enabled: yes
     - wait_for: port={{elasticsearch_port}} delay=10
-    - debug:
-        var: elasticsearch_passwd
     - name: Creating a Superuser
       shell: |
         /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
+    - name: Change the elastic passwd
+      shell: |
         curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
+    - name:
+      debug:
+        var: elasticsearch_passwd
     - name: Set kibana username
       lineinfile:
         path: /etc/kibana/kibana.yml
