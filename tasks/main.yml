@@ -113,7 +113,7 @@
         var:  "elasticsearch_version"
     - name: Check the elasticsearch version
       fail: msg="The version you currently select does not support security authentication for free"
-      when: elasticsearch_version < 7.1 and elasticsearch_version != 6.8
+      when: elasticsearch_version < '7.1' and elasticsearch_version != '6.8'
     - name: Enable xpack.security
       lineinfile:
         path: /etc/elasticsearch/elasticsearch.yml
@@ -130,10 +130,8 @@
     - wait_for: port={{elasticsearch_port}} delay=10
     - name: Creating a Superuser
       shell: |
-        /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
-    - name: Change the elastic passwd
-      shell: |
-        curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
+        sudo /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
+        sudo curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
     - name:
       debug:
         var: elasticsearch_passwd
@@ -151,7 +149,7 @@
         state: present
     - name: Delete the Superuser
       shell: |
-        /usr/share/elasticsearch/bin/elasticsearch-users userdel copriwolf
+        sudo /usr/share/elasticsearch/bin/elasticsearch-users userdel copriwolf
     - name: Restart elasticsearch
       service:
         name: elasticsearch.service
