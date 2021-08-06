@@ -115,7 +115,7 @@
     - name: Use basic xpack license
       lineinfile:
         path: /etc/elasticsearch/elasticsearch.yml
-        line: 'xpack.license.self_generated.type: basic'
+        line: 'xpack.license.self_generated.type: trial'
     - name: Enable transport ssl
       lineinfile:
         path: /etc/elasticsearch/elasticsearch.yml
