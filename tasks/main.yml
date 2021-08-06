@@ -110,10 +110,10 @@
 
 - block:
     - debug: 
-      var:  "elasticsearch_meta[elasticsearch_version]"
+      var:  "elasticsearch_version"
     - name: Check the elasticsearch version
       fail: msg="The version you currently select does not support security authentication for free"
-      when: elasticsearch_meta[elasticsearch_version] < '7.1' and elasticsearch_meta[elasticsearch_version] != '6.8'
+      when: elasticsearch_version < 7.1 and elasticsearch_version != 6.8
     - name: Enable xpack.security
       lineinfile:
         path: /etc/elasticsearch/elasticsearch.yml
