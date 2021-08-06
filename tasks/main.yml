@@ -34,9 +34,9 @@
     line: 'http.port: {{elasticsearch_port}}'
 
 - name: Enable elasticsearch remote connection
-  replace:
+  lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#network.host: 192.168.0.1'
+    regexp: '^#network.host: '
     line: 'network.host: 0.0.0.0'     
   when: elasticsearch_remote
 
@@ -110,7 +110,7 @@
 
 - block:
     - debug: 
-      var:  "elasticsearch_version"
+        var:  "elasticsearch_version"
     - name: Check the elasticsearch version
       fail: msg="The version you currently select does not support security authentication for free"
       when: elasticsearch_version < 7.1 and elasticsearch_version != 6.8
