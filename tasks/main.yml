@@ -99,7 +99,7 @@
         ln -sf /etc/kibana/kibana.yml /data/config/
     - wait_for: port={{elasticsearch_kibana_port}} delay=10
     - name: Check centos Kibana Version
-      shell: sudo sh -c "echo "kibana version:"`rpm -qa | grep kibana | awk -F"-" '{print $2}'` 1>> /data/logs/install_version.txt"
+      shell: sudo "echo "kibana version:"`rpm -qa | grep kibana | awk -F"-" '{print $2}'` 1>> /data/logs/install_version.txt"
     - name: Check Kibana Service
       shell: systemctl status kibana | grep Active*
       register: Check_kibana_service
@@ -107,7 +107,10 @@
   when: elasticsearch_install_kibana
 
 # Enabling password Authentication
-- block: 
+
+- block:
+    - debug: 
+      var:  "elasticsearch_meta[elasticsearch_version]"
     - name: Check the elasticsearch version
       fail: msg="The version you currently select does not support security authentication for free"
       when: elasticsearch_meta[elasticsearch_version] < '7.1' and elasticsearch_meta[elasticsearch_version] != '6.8'
@@ -124,6 +127,7 @@
         name: elasticsearch.service
         state: restarted
         enabled: yes
+    - wait_for: port={{elasticsearch_port}} delay=10
     - name: Creating a Superuser
       shell: |
         /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
