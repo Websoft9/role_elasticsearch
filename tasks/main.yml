@@ -11,32 +11,32 @@
 - name: Set cluster.name
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#cluster.name:'
+    regexp: '^#cluster.name: '
     line: 'cluster.name: {{elasticsearch_clurname}}'
 
 - name: Set node.name
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#node.name:'
+    regexp: '^#node.name: '
     line: 'node.name: node-1'
 
 - name: Initial_master_nodes
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#cluster.initial_master_nodes:'
+    regexp: '^#cluster.initial_master_nodes: '
     line: 'cluster.initial_master_nodes: ["node-1"]'
     backrefs: yes
 
 - name: Set elasticsearch port
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#http.port:'
+    regexp: '^#http.port: '
     line: 'http.port: {{elasticsearch_port}}'
 
 - name: Enable elasticsearch remote connection
   replace:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#network.host:'
+    regexp: '^#network.host: '
     replace: 'network.host: 0.0.0.0'     
   when: elasticsearch_remote
 
@@ -71,19 +71,19 @@
     - name: Set kibana port
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#server.port:'
+        regexp: '^#server.port: '
         line: 'server.port: {{elasticsearch_kibana_port}}'
         state: present
     - name: Set the bind host
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#server.host:'
+        regexp: '^#server.host: '
         line: 'server.host: "0.0.0.0"'
         state: present
     - name: Kibana connect elasticsearch
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.hosts:'
+        regexp: '^#elasticsearch.hosts: '
         line: 'elasticsearch.hosts: ["http://localhost:9200"]'
         state: present
         backrefs: yes
@@ -131,13 +131,13 @@
     - name: Set kibana username
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.username:'
+        regexp: '^#elasticsearch.username: '
         line: "elasticsearch.username: 'elastic'"
         state: present
     - name: Set kibana passwod
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.password:'
+        regexp: '^#elasticsearch.password: '
         line: "elasticsearch.password: '123456'"
         state: present
     - name: Delete the Superuser
