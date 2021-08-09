@@ -129,7 +129,7 @@
     - name: Creating a Superuser
       shell: |
         sudo /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
-        sudo curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  "password":"{{elasticsearch_passwd}}"
+        sudo curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"'
     - name:
       debug:
         var: elasticsearch_passwd
