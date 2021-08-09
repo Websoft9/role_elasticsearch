@@ -116,7 +116,7 @@
     - name: Enable xpack.security
       blockinfile:
         path: /etc/elasticsearch/elasticsearch.yml
-        block:
+        block: |
           'xpack.security.enabled: true'
           'xpack.license.self_generated.type: basic'
           'xpack.security.transport.ssl.enabled: true'
