@@ -9,4 +9,4 @@ elasticsearch_install_kibana: False
 elasticsearch_port: 9200
 elasticsearch_kibana_port: 5601
 elasticsearch_authentication: False
-elasticsearch_passwd: 123456
+elasticsearch_passwd: admin123
