@@ -1,41 +1,43 @@
 - name: Install this role on {{ansible_os_family}}
   include: "{{ansible_os_family}}.yml"
 
+- name: Set viturl memory
+  sysctl:
+    name: vm.max_map_count
+    value: 655360
+    state: present
+    reload: yes
+
 - name: Set cluster.name
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#cluster.name: my-application'
+    regexp: '^#cluster.name: '
     line: 'cluster.name: {{elasticsearch_clurname}}'
 
 - name: Set node.name
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#node.name: node-1'
+    regexp: '^#node.name: '
     line: 'node.name: node-1'
-
-- name: Set auto_create_index
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    create: yes
-    line: 'action.auto_create_index: {{elasticsearch_create_index}}'
 
 - name: Initial_master_nodes
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    create: yes
+    regexp: '^#cluster.initial_master_nodes: '
     line: 'cluster.initial_master_nodes: ["node-1"]'
+    backrefs: yes
 
 - name: Set elasticsearch port
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#http.port: 9200'
+    regexp: '^#http.port: '
     line: 'http.port: {{elasticsearch_port}}'
 
 - name: Enable elasticsearch remote connection
-  replace:
+  lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    regexp: '^#network.host: 192.168.0.1'
-    replace: 'network.host: 0.0.0.0'     
+    regexp: '^#network.host: '
+    line: 'network.host: 0.0.0.0'     
   when: elasticsearch_remote
 
 - name: Restart elasticsearch
@@ -56,7 +58,7 @@
   - wait_for: port={{elasticsearch_port}} delay=10
   
   - name: Check Elasticsearch Version
-    shell: sudo echo "elasticsearch  version:" $(curl -XGET localhost:9200  |grep number |cut -d '"' -f 4)  |sudo tee -a /data/logs/install_version.txt
+    shell: sudo echo "elasticsearch  version:" $(curl -XGET localhost:9200  |grep number |cut -d '"' -f 4)  | sudo tee -a /data/logs/install_version.txt
 
 - name: Check Elasticsearch Service
   shell: systemctl status elasticsearch | grep Active*
@@ -69,21 +71,19 @@
     - name: Set kibana port
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#server.port 5601'
+        regexp: '^#server.port: '
         line: 'server.port: {{elasticsearch_kibana_port}}'
         state: present
-        backrefs: yes
     - name: Set the bind host
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#server.host: "localhost"'
+        regexp: '^#server.host: '
         line: 'server.host: "0.0.0.0"'
         state: present
-        backrefs: yes
     - name: Kibana connect elasticsearch
       lineinfile:
         path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.hosts'
+        regexp: '^#elasticsearch.hosts: '
         line: 'elasticsearch.hosts: ["http://localhost:9200"]'
         state: present
         backrefs: yes
@@ -97,10 +97,66 @@
         ln -sf /var/log/kibana  /data/log/
         ln -sf /var/lib/kibana  /data/
         ln -sf /etc/kibana/kibana.yml /data/config/
+    - wait_for: port={{elasticsearch_kibana_port}} delay=10
     - name: Check centos Kibana Version
-      shell: sudo sh -c "echo "kibana version:"`rpm -qa | grep kibana | awk -F"-" '{print $2}'` 1>> /data/logs/install_version.txt"
+      shell: sudo echo "kibana version:" `rpm -qa | grep kibana | awk -F "-" '{print $2}'` | sudo tee -a /data/logs/install_version.txt
     - name: Check Kibana Service
       shell: systemctl status kibana | grep Active*
       register: Check_kibana_service
       notify: Check_kibana_service
-  when: elasticsearch_install_kibana 
+  when: elasticsearch_install_kibana
+
+# Enabling password Authentication
+- block:
+    - debug: 
+        var:  "elasticsearch_version"
+    - name: Check the elasticsearch version
+      fail: msg="The version you currently select does not support security authentication for free"
+      when: elasticsearch_version < '7.1' and elasticsearch_version != '6.8'
+    - name: Enable xpack.security
+      blockinfile:
+        path: /etc/elasticsearch/elasticsearch.yml
+        block:
+          'xpack.security.enabled: true'
+          'xpack.license.self_generated.type: basic'
+          'xpack.security.transport.ssl.enabled: true'
+    - name: Restart elasticsearch
+      service:
+        name: elasticsearch.service
+        state: restarted
+        enabled: yes
+    - wait_for: port={{elasticsearch_port}} delay=10
+    - name: Creating a Superuser
+      shell: |
+        sudo /usr/share/elasticsearch/bin/elasticsearch-users useradd copriwolf -p sayHi2Elastic -r superuser
+        sudo curl -u copriwolf:sayHi2Elastic -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  "password":"{{elasticsearch_passwd}}"
+    - name:
+      debug:
+        var: elasticsearch_passwd
+    - name: Set kibana username
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#elasticsearch.username: '
+        line: "elasticsearch.username: 'elastic'"
+        state: present
+    - name: Set kibana passwod
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#elasticsearch.password: '
+        line: "elasticsearch.password: '{{elasticsearch_passwd}}'"
+        state: present
+    - name: Delete the Superuser
+      shell: |
+        sudo /usr/share/elasticsearch/bin/elasticsearch-users userdel copriwolf
+    - name: Restart elasticsearch
+      service:
+        name: elasticsearch.service
+        state: restarted
+        enabled: yes
+    - name: Restart Kibana
+      service:
+        name: kibana.service
+        state: restarted
+        enabled: yes
+  when: elasticsearch_authentication 
+    
