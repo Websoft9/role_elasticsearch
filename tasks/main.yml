@@ -117,9 +117,9 @@
       blockinfile:
         path: /etc/elasticsearch/elasticsearch.yml
         block: |
-          'xpack.security.enabled: true'
-          'xpack.license.self_generated.type: basic'
-          'xpack.security.transport.ssl.enabled: true'
+          xpack.security.enabled: true
+          xpack.license.self_generated.type: basic
+          xpack.security.transport.ssl.enabled: true
     - name: Restart elasticsearch
       service:
         name: elasticsearch.service
