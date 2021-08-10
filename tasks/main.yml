@@ -61,18 +61,18 @@
     - name: Set elastic password
       shell: |
         echo "y
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456
-            123456" | /usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456
+        123456" | /usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
   when: elasticsearch_authentication 
       
 - name: Restart elasticsearch
