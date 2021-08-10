@@ -45,6 +45,7 @@
     - name: Check the elasticsearch version
       fail: msg="The version you currently select does not support security authentication for free"
       when: elasticsearch_version < '7.1' and elasticsearch_version != '6.8'
+
     - name: Enable xpack.security
       blockinfile:
         path: /etc/elasticsearch/elasticsearch.yml
@@ -52,12 +53,15 @@
           xpack.security.enabled: true
           xpack.license.self_generated.type: basic
           xpack.security.transport.ssl.enabled: true
+
     - name: Restart elasticsearch
       service:
         name: elasticsearch.service
         state: restarted
         enabled: yes
+
     - wait_for: port={{elasticsearch_port}} delay=10
+    
     - name: Set elastic password
       shell: |
         echo "y
