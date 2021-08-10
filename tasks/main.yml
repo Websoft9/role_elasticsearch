@@ -40,12 +40,42 @@
     line: 'network.host: 0.0.0.0'     
   when: elasticsearch_remote
 
+# Enabling password Authentication
+- block:
+    - name: Check the elasticsearch version
+      fail: msg="The version you currently select does not support security authentication for free"
+      when: elasticsearch_version < '7.1' and elasticsearch_version != '6.8'
+    - name: Enable xpack.security
+      blockinfile:
+        path: /etc/elasticsearch/elasticsearch.yml
+        block: |
+          xpack.security.enabled: true
+          xpack.license.self_generated.type: basic
+          xpack.security.transport.ssl.enabled: true
+    - name: Restart elasticsearch
+      service:
+        name: elasticsearch.service
+        state: restarted
+        enabled: yes
+    - wait_for: port={{elasticsearch_port}} delay=10
+    - name: Creating a Superuser
+      shell: |
+        sudo /usr/share/elasticsearch/bin/elasticsearch-users useradd admin -p admin123 -r superuser
+    - wait_for: port={{elasticsearch_port}} delay=10
+    - name: Change elastic password
+      shell: |
+        sudo curl -u admin:admin123 -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
+    - name: Delete the Superuser
+      shell: |
+        sudo /usr/share/elasticsearch/bin/elasticsearch-users userdel admin
+  when: elasticsearch_authentication 
+      
 - name: Restart elasticsearch
   service:
     name: elasticsearch.service
     state: restarted
     enabled: yes
-
+    
 - name: Set soft link
   shell: |
     ln -sf /var/log/elasticsearch  /data/log/
@@ -87,6 +117,27 @@
         line: 'elasticsearch.hosts: ["http://localhost:9200"]'
         state: present
         backrefs: yes
+    - name: Kibana connect elasticsearch
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#elasticsearch.url: '
+        line: 'elasticsearch.url: ["http://localhost:9200"]'
+        state: present
+        backrefs: yes
+    - name: Set kibana username
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#elasticsearch.username: '
+        line: "elasticsearch.username: 'elastic'"
+        state: present
+      when: elasticsearch_authentication 
+    - name: Set kibana passwod
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#elasticsearch.password: '
+        line: "elasticsearch.password: '{{elasticsearch_passwd}}'"
+        state: present
+      when: elasticsearch_authentication 
     - name: Restart Kibana
       service:
         name: kibana.service
@@ -105,56 +156,3 @@
       register: Check_kibana_service
       notify: Check_kibana_service
   when: elasticsearch_install_kibana
-
-# Enabling password Authentication
-- block:
-    - debug: 
-        var:  "elasticsearch_version"
-    - name: Check the elasticsearch version
-      fail: msg="The version you currently select does not support security authentication for free"
-      when: elasticsearch_version < '7.1' and elasticsearch_version != '6.8'
-    - name: Enable xpack.security
-      blockinfile:
-        path: /etc/elasticsearch/elasticsearch.yml
-        block: |
-          xpack.security.enabled: true
-          xpack.license.self_generated.type: basic
-          xpack.security.transport.ssl.enabled: true
-    - name: Restart elasticsearch
-      service:
-        name: elasticsearch.service
-        state: restarted
-        enabled: yes
-    - wait_for: port={{elasticsearch_port}} delay=10
-    - name: Creating a Superuser
-      shell: |
-        sudo /usr/share/elasticsearch/bin/elasticsearch-users useradd admin -p admin123 -r superuser
-    - wait_for: port={{elasticsearch_port}} delay=10
-    - name: Change elastic password
-      shell: |
-        sudo curl -u admin:admin123 -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
-    - name:
-      debug:
-        var: elasticsearch_passwd
-    - name: Set kibana username
-      lineinfile:
-        path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.username: '
-        line: "elasticsearch.username: 'elastic'"
-        state: present
-    - name: Set kibana passwod
-      lineinfile:
-        path: /etc/kibana/kibana.yml
-        regexp: '^#elasticsearch.password: '
-        line: "elasticsearch.password: '{{elasticsearch_passwd}}'"
-        state: present
-    - name: Delete the Superuser
-      shell: |
-        sudo /usr/share/elasticsearch/bin/elasticsearch-users userdel admin
-    - name: Restart Kibana
-      service:
-        name: kibana.service
-        state: restarted
-        enabled: yes
-  when: elasticsearch_authentication 
-    
