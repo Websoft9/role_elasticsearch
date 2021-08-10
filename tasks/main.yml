@@ -60,14 +60,14 @@
     - wait_for: port={{elasticsearch_port}} delay=10
     - name: Creating a Superuser
       shell: |
-        sudo /usr/share/elasticsearch/bin/elasticsearch-users useradd admin -p admin123 -r superuser
+        /usr/share/elasticsearch/bin/elasticsearch-users useradd admin -p admin123 -r superuser
     - wait_for: port={{elasticsearch_port}} delay=10
     - name: Change elastic password
       shell: |
-        sudo curl -u admin:admin123 -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
+        curl -u admin:admin123 -XPUT "http://localhost:9200/_xpack/security/user/elastic/_password?pretty" -H 'Content-Type: application/json' -d  '{"password":"{{elasticsearch_passwd}}"}'
     - name: Delete the Superuser
       shell: |
-        sudo /usr/share/elasticsearch/bin/elasticsearch-users userdel admin
+        /usr/share/elasticsearch/bin/elasticsearch-users userdel admin
   when: elasticsearch_authentication 
       
 - name: Restart elasticsearch
@@ -75,7 +75,7 @@
     name: elasticsearch.service
     state: restarted
     enabled: yes
-    
+
 - name: Set soft link
   shell: |
     ln -sf /var/log/elasticsearch  /data/log/
