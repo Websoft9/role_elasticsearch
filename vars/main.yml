@@ -1,6 +1,6 @@
 ## you can set password on >7.1 or 6.8
 elasticsearch_meta:
-  "7.14":
+  "7.16":
       yum_name: "7.x"
       yum_pkg_name_debian: "7.16.3"
       yum_pkg_name_redhat: "7.16.3-1"
