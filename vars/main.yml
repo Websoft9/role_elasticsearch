@@ -2,6 +2,14 @@
 elasticsearch_meta:
   "7.14":
       yum_name: "7.x"
+      yum_pkg_name_debian: "7.16.3"
+      yum_pkg_name_redhat: "7.16.3-1"
+  "7.15":
+      yum_name: "7.x"
+      yum_pkg_name_debian: "7.15.0"
+      yum_pkg_name_redhat: "7.15.0-1"
+  "7.14":
+      yum_name: "7.x"
       yum_pkg_name_debian: "7.14.0"
       yum_pkg_name_redhat: "7.14.0-1"
   "7.13":
